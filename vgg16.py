@@ -4,6 +4,9 @@ from keras.layers import Dense, Conv2D, MaxPool2D , Flatten
 from keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 import sys,time
+import glob
+
+
 t0= time.clock()
 
 trdata = ImageDataGenerator()
@@ -45,11 +48,22 @@ model.compile(optimizer=opt, loss=keras.losses.categorical_crossentropy, metrics
 
 model.summary()
 
-from keras.callbacks import ModelCheckpoint, EarlyStopping
-checkpoint = ModelCheckpoint("appr3_vgg16.h5", monitor='val_acc', verbose=1, save_best_only=True, save_weights_only=False, mode='auto', period=1)
-early = EarlyStopping(monitor='val_acc', min_delta=0, patience=20, verbose=1, mode='auto')
-hist = model.fit_generator(steps_per_epoch=100,generator=traindata, validation_data= testdata, validation_steps=10,epochs=100,callbacks=[checkpoint,early])
+from keras import utils
+utils.plot_model(
+    model,
+    to_file="app3modelFull.png",
+    show_shapes=False,
+    show_layer_names=True,
+    rankdir="TB",
+    expand_nested=False,
+    dpi=96,
+)
 
+from keras.callbacks import ModelCheckpoint, EarlyStopping
+checkpoint = ModelCheckpoint("vgg16_1.h5", monitor='val_acc', verbose=1, save_best_only=True, save_weights_only=False, mode='auto', period=1)
+early = EarlyStopping(monitor='val_acc', min_delta=0, patience=20, verbose=1, mode='auto')
+
+hist = model.fit_generator(steps_per_epoch=100,generator=traindata, validation_data= testdata, validation_steps=10,epochs=100,callbacks=[checkpoint,early])
 
 t1 = time.clock() - t0
 print('\ntime: {}'.format( t1))

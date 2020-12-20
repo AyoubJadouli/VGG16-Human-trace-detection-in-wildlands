@@ -6,4 +6,5 @@ In this exemple we use VGG16 in the approach3 of the project Prediction of wild 
 
 
 ## web sources
+https://github.com/1297rohit/VGG16-In-Keras
 https://towardsdatascience.com/step-by-step-vgg16-implementation-in-keras-for-beginners-a833c686ae6c
